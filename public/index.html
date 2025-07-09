@@ -3,9 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello From GO </title>
+    <title>ReelingIt - Movies </title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="app.webmanifest">
+    <link rel="shortcut icon" href="images/icon.png" type="image/x-icon">
+    <script type="module" src="app.js"></script>
 </head>
 <body>
-    <h1>Hello From Go</h1>
+    <header>
+        <h1><img src="images/logo.png" height="35" alt="ReelingIt"></h1>
+        <nav>
+            <ul>
+                <li><a class="navlink" href="/">Movies</a></li>
+                <li><a class="navlink" href="/account/favourites">Favourites</a></li>
+                <li><a class="navlink" href="/account/watchlist">WatchList</a></li>
+                <li><a class="navlink" href="/account">My Account</a></li>
+            </ul>
+        </nav>
+        <div>
+            <form onsubmit="app.search(event)">
+                <input type="search" placeholder="Search movies">
+            </form>
+        </div>
+    </header>
+    <main>
+        <!-- <animated-loading data-elements="4" data-width="200px" data-height="300px"></animated-loading> -->
+    </main>
+
+    <!-- Movie details -->
+    <template id="template-movie-details">
+        <article id="movie">
+            <h2><animated-loading elements="2"></animated-loading></h2>
+            <h3></h3>
+            <header>
+                <img src="" alt="Poster">
+                <youtube-embed id="trailer">Youtube loading...</youtube-embed>
+                <section id="actions">
+                    <dl id="metadata">
+                    </dl>
+                    <button>Add to Favorites</button>
+                    <button>Add to Watchlist</button>    
+                </section>
+            </header>
+            <ul id="genres"></ul>
+            <p id="overview"></p>
+            <ul id="cast"></ul>
+        </article>
+    </template>
+
+    <!-- Templates -->
+     <template id="template-home">
+        <section class="vertical-scroll" id="top-10">
+            <h2>This Week's top movies</h2>
+            <ul></ul>
+        </section>
+        <section class="vertical-scroll" id="random">
+            <h2>Something to watch today </h2>
+            <ul></ul>
+        </section>
+     </template>
+    <footer>
+        <p>
+            (C) ReelingIt - FrontendMasters.com
+        </p>
+    </footer>
 </body>
 </html>
