@@ -24,7 +24,7 @@ export const router = {
 
         let pageElement = null; 
         const routePath = route.includes('?') ? route.split('?')[0] : route;
-
+        
         for (const r of routes) {
             if (typeof r.path === 'string' && r.path === routePath) {
                 // String Path
@@ -49,8 +49,28 @@ export const router = {
             pageElement.textContent = "Page not found"
         }
         
-        // I have a page for the current url
-        document.querySelector("main").innerHTML = ""
-        document.querySelector("main").appendChild(pageElement)
+        // Apply transitions between views
+        const oldPage = document.querySelector("main").firstElementChild
+        if (oldPage) {
+            oldPage.style.viewTransitionName = "old"
+        }
+
+        pageElement.style.viewTransitionName = "new"
+
+        function updatePage() {
+            // I have a page for the current url
+            document.querySelector("main").innerHTML = ""
+            document.querySelector("main").appendChild(pageElement)
+        }
+
+        if (!document.startViewTransition) {
+            // Don't do the transition
+            updatePage()
+        } else {
+            // Do the transition
+            document.startViewTransition(() => { updatePage()})
+
+        }
+       
     }
 }

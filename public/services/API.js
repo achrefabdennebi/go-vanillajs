@@ -6,6 +6,9 @@ export const API = {
     getRandomMovies: async () => {
         return await API.fetch("movies/random/")
     },
+    getGenres: async () => {
+        return await API.fetch("genres")
+    },
     getMovieById: async (id) => {
         return await API.fetch(`movies/${id}`)
     }, 
@@ -14,7 +17,7 @@ export const API = {
     },
     fetch: async (serviceName, args) => {
         try {
-            const queryString = args ? new URLSearchParams().toString : "";
+            const queryString = args ? new URLSearchParams(args).toString() : "";
 
             const response = await fetch(`${API.baseURL}/${serviceName}?${queryString}`);
             const result = await response.json();

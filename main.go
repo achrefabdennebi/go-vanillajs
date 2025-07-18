@@ -65,6 +65,14 @@ func main() {
 	http.HandleFunc("/api/movies/", movieHandler.GetMovie) // api/movies/123
 	http.HandleFunc("/api/genres/", movieHandler.GetGenres)
 
+	catchAllClientRouterHandler := func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "./public/index.html")
+	}
+
+	http.HandleFunc("/movies", catchAllClientRouterHandler)
+	http.HandleFunc("/movies/", catchAllClientRouterHandler)
+	http.HandleFunc("/account/", catchAllClientRouterHandler)
+
 	// Handle for static files
 	http.Handle("/", http.FileServer(http.Dir("public")))
 	fmt.Println("Serving files")

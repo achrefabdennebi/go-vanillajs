@@ -14,6 +14,10 @@ export class MovieDetailsPage extends HTMLElement {
             return;
         }
 
+        if (!this.movie) {
+            app.showError("Not exist")
+        }
+
         const template = document.getElementById('template-movie-details')
         const content = template.content.cloneNode(true)
         this.appendChild(content)
