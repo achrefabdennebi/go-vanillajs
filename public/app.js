@@ -36,5 +36,50 @@ window.app = {
         const order = urlParams.get("order") ?? "";
         app.router.go(`/movies?q=${q}&order=${order}&genre=${genre}`);
     },
+    register: async (event) => {
+        event.preventDefault();
+        const name = document.getElementById("register-name").value
+        const email = document.getElementById("register-email").value
+        const password = document.getElementById("register-password").value
+        const passwordConfirmation = document.getElementById("register-password-confirm").value
+
+        const errors = []
+        if (name.length < 4)  errors.push("Enter your complete name")
+        if (password.length < 7) errors.push("Enter a password with at least 7 character")
+        if (email.length < 4) errors.push("Enter your complete email")
+        if (password !== passwordConfirmation) errors.push("Password don't match")
+        debugger;
+        if (errors.length === 0) {
+            const response = await API.register(name, email, password)
+            if (response.success) {
+                app.router.go("/account/")
+            } else {
+                app.showError(response.message)
+            }
+        } else {
+            app.showError(errors.join(". "), false)
+        }
+
+    },
+    login: async (event) => {
+        event.preventDefault();
+        let errors = [];
+        const email = document.getElementById("login-email").value;
+        const password = document.getElementById("login-password").value;
+        debugger
+        if (email.length < 8) errors.push("Enter your complete email");
+        if (password.length < 6) errors.push("Enter a password with 6 characters");
+        if (errors.length==0) {
+            const response = await API.authenticate(email, password);
+            if (response.success) {
+                app.router.go("/account/")
+            } else {
+                app.showError(response.message, false);
+            }
+        } else {
+            app.showError(errors.join(". "), false);
+        }
+
+    },
     api: API  
 }
