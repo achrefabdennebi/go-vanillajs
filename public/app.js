@@ -2,6 +2,7 @@ import { API } from "./services/API.js";
 import './components/AnimatedLoading.js';
 import './components/YoutubeEmbed.js'
 import { router } from "./services/Router.js";
+import Store from "./services/Store.js"
 
 window.addEventListener('DOMContentLoaded', () => {
     app.router.init()
@@ -9,6 +10,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 window.app = {
     router,
+    Store, 
     showError: (message="There was an error", goToHome=true) => {
         document.getElementById("alert-modal").showModal();
         document.querySelector("#alert-modal p").textContent = message;
@@ -48,10 +50,10 @@ window.app = {
         if (password.length < 7) errors.push("Enter a password with at least 7 character")
         if (email.length < 4) errors.push("Enter your complete email")
         if (password !== passwordConfirmation) errors.push("Password don't match")
-        debugger;
         if (errors.length === 0) {
             const response = await API.register(name, email, password)
             if (response.success) {
+                app.Store.jwt = response.jwt;
                 app.router.go("/account/")
             } else {
                 app.showError(response.message)
@@ -66,12 +68,12 @@ window.app = {
         let errors = [];
         const email = document.getElementById("login-email").value;
         const password = document.getElementById("login-password").value;
-        debugger
         if (email.length < 8) errors.push("Enter your complete email");
         if (password.length < 6) errors.push("Enter a password with 6 characters");
         if (errors.length==0) {
             const response = await API.authenticate(email, password);
             if (response.success) {
+                app.Store.jwt = response.jwt;
                 app.router.go("/account/")
             } else {
                 app.showError(response.message, false);
@@ -80,6 +82,10 @@ window.app = {
             app.showError(errors.join(". "), false);
         }
 
+    },
+    logout: () => {
+        Store.jwt = null;
+        app.router.go('/')
     },
     api: API  
 }

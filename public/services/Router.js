@@ -24,11 +24,12 @@ export const router = {
 
         let pageElement = null; 
         const routePath = route.includes('?') ? route.split('?')[0] : route;
-        
+        let needsLogin = false
         for (const r of routes) {
             if (typeof r.path === 'string' && r.path === routePath) {
                 // String Path
                 pageElement = new r.component();
+                needsLogin = r.loggedIn === true;
                 break;
             } else if (r.path instanceof RegExp) {
                 // RegEx path
@@ -38,10 +39,24 @@ export const router = {
                     // To get the decimal (id)
                     const params = match.slice(1)
                     pageElement.params = params
+                    needsLogin = r.loggedIn === true;
                     break;
                 }
 
             }
+        }
+
+
+        if (pageElement) {
+            if (needsLogin && app.Store.loggedIn === false) {
+                app.router.go("/account/login");
+                return;
+            }
+        }
+        
+        if (needsLogin && app.Store.loggedIn === false) {
+            app.router.go("/account/login");
+            return;
         }
 
         if (pageElement === null) {

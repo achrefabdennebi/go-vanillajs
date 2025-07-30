@@ -18,7 +18,7 @@
                 <li><a class="navlink" href="/">Movies</a></li>
                 <li><a class="navlink" href="/account/favourites">Favourites</a></li>
                 <li><a class="navlink" href="/account/watchlist">WatchList</a></li>
-                <li><a class="navlink" href="/account">My Account</a></li>
+                <li><a class="navlink" href="/account/">My Account</a></li>
             </ul>
         </nav>
         <div>
@@ -36,6 +36,7 @@
         <p>There was an error loading the page</p>
         <button onclick="app.closeError()">Ok</button>
     </dialog>
+
 
     <!-- Movies page -->
     <template id="template-movies">
@@ -129,7 +130,16 @@
         </section>
     </template>
 
-    
+    <!-- Account template-->
+    <template id="template-account">
+        <section id="account">
+            <h2>You are Logged In</h2>
+            <button onclick="app.logout()">Log out</button>
+            <button onclick="app.Router.go('/account/favorites')">Your Favorites</button>
+            <button onclick="app.Router.go('/account/watchlist')">Your Watchlist</button>
+        </section>
+    </template>
+
     <footer>
         <p>
             (C) ReelingIt - FrontendMasters.com
