@@ -54,6 +54,17 @@ export class MovieDetailsPage extends HTMLElement {
             `;
             ulCast.appendChild(li);
         });
+
+        this.querySelector('#btnFavorites').addEventListener('click', () => {
+            console.log(`add to favorites`)
+            app.saveToCollection(this.movie.id, 'favorite')
+        });
+
+        this.querySelector('#btnWatchlist').addEventListener('click', () => {
+            console.log(`add to Watchlist`)
+            app.saveToCollection(this.movie.id, 'watchlist')
+
+        });
     }
 
     connectedCallback() {

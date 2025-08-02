@@ -10,7 +10,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 window.app = {
     router,
-    Store, 
+    Store,
     showError: (message="There was an error", goToHome=true) => {
         document.getElementById("alert-modal").showModal();
         document.querySelector("#alert-modal p").textContent = message;
@@ -86,6 +86,28 @@ window.app = {
     logout: () => {
         Store.jwt = null;
         app.router.go('/')
+    },
+    saveToCollection: async (movie_id, collection) => {
+        if (app.Store.loggedIn) {
+            try {
+                const response = await API.saveToCollection(movie_id, collection);
+                if (response.success) {
+                    switch(collection) {
+                        case "favorite":
+                            app.router.go("/account/favorites")
+                        break;
+                        case "watchlist":
+                            app.router.go("/account/watchlist")
+                    }
+                } else {
+                    app.showError("We couldn't save the movie.")
+                }
+            } catch (e) {
+                console.log(e)
+            }
+        } else {
+            app.Router.go("/account/");
+        }
     },
     api: API  
 }

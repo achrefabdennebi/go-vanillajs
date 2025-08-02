@@ -16,7 +16,7 @@
         <nav>
             <ul>
                 <li><a class="navlink" href="/">Movies</a></li>
-                <li><a class="navlink" href="/account/favourites">Favourites</a></li>
+                <li><a class="navlink" href="/account/favorites">Favourites</a></li>
                 <li><a class="navlink" href="/account/watchlist">WatchList</a></li>
                 <li><a class="navlink" href="/account/">My Account</a></li>
             </ul>
@@ -74,8 +74,8 @@
                 <section id="actions">
                     <dl id="metadata">
                     </dl>
-                    <button>Add to Favorites</button>
-                    <button>Add to Watchlist</button>    
+                    <button id="btnFavorites">Add to Favorites</button>
+                    <button id="btnWatchlist">Add to Watchlist</button>    
                 </section>
             </header>
             <ul id="genres"></ul>
@@ -139,6 +139,17 @@
             <button onclick="app.Router.go('/account/watchlist')">Your Watchlist</button>
         </section>
     </template>
+
+    <!-- Favourites template -->
+    <template id="template-collection">
+        <section>
+            <ul id="movies-result">
+                <animated-loading data-elements="5"
+                    data-width="150px" data-height="220px">
+                </animated-loading> 
+            </ul>
+        </section>
+    </template>  
 
     <footer>
         <p>
