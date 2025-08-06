@@ -15,4 +15,5 @@ type AccountStorage interface {
 	Register(string, string, string) (bool, error)
 	GetAccountDetails(string) (models.User, error)
 	SaveCollection(models.User, int, string) (bool, error)
+	DeleteAccount(string) (bool, error)
 }

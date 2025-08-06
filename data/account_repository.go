@@ -273,3 +273,18 @@ var (
 	ErrUserAlreadyExists        = errors.New("user already exists")
 	ErrUserNotFound             = errors.New("user not found")
 )
+
+func (r *AccountRepository) DeleteAccount(email string) (bool, error) {
+	query := `
+		UPDATE users 
+		SET time_deleted = $1
+		WHERE email = $2
+	`
+
+	_, err := r.db.Exec(query, time.Now(), email)
+	if err != nil {
+		r.logger.Error("Failed to apply a soft deletion on user", err)
+	}
+
+	return true, nil
+}

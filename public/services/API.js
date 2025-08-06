@@ -21,6 +21,9 @@ export const API = {
     authenticate: async (email, password) => {
         return await API.send("account/authenticate/", {email, password})
     },
+    deleteAccount: async () => {
+        return await API.send("account/delete/")
+    },
     getFavorites: async () => {
         return await API.fetch('account/favorites')
     }, 

@@ -87,6 +87,15 @@ window.app = {
         Store.jwt = null;
         app.router.go('/')
     },
+    deleteAccount: async () => {
+        console.log(`DELETE ACCOUNT`)
+        const deletedAccount = await API.deleteAccount()
+        if (deletedAccount.success) {
+            app.logout()
+        } else {
+            app.showModal("We counldn't delete the user")
+        }
+    },
     saveToCollection: async (movie_id, collection) => {
         if (app.Store.loggedIn) {
             try {

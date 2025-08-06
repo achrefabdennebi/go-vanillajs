@@ -123,6 +123,29 @@ func (h *AccountHandler) Authenticate(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func (h *AccountHandler) Delete(w http.ResponseWriter, r *http.Request) {
+
+	email, ok := r.Context().Value("email").(string)
+
+	if !ok {
+		http.Error(w, "Unable to retrieve email", http.StatusBadGateway)
+	}
+
+	success, err := h.storage.DeleteAccount(email)
+	if h.handleStorageError(w, err, "Failed to delete account") {
+		return
+	}
+
+	response := AuthResponse{
+		Success: success,
+		Message: "User deleted successfully",
+	}
+
+	if err := h.writeJSONResponse(w, response); err == nil {
+		h.logger.Info("Deleted successfully user with email: " + email)
+	}
+}
+
 func (h *AccountHandler) AuthMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		tokenStr := r.Header.Get("Authorization")
